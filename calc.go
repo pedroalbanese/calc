@@ -6,10 +6,31 @@ import (
 	"strings"
 )
 
-// Eval evaluates a mathematical expession in BODMAS order, the
+// EvalTokens evaluates a mathematical expession in BODMAS order, the
 // input string array is assumed to already be tokenized. This method
 // panics if the expression is not valid for any reason.
-func Eval(s ...string) string {
+func EvalTokens(s ...string) string {
+	// evaluate brackets, recursively
+	for i := 0; i < len(s); i++ {
+		if s[i] == "(" {
+			bracketDepth := 0
+			for j := i; j < len(s); j++ {
+				if s[j] == "(" {
+					bracketDepth++
+				}
+				if s[j] == ")" {
+					bracketDepth--
+				}
+				if s[j] == ")" && bracketDepth == 0 {
+					s[i] = EvalTokens(s[i+1 : j]...)
+					s = append(s[0:i+1], s[j+1:len(s)]...)
+					break
+				}
+			}
+		}
+	}
+
+	// apply binary operations in precedence order
 	odmas := []struct {
 		Op    string
 		Apply func(lhs, rhs string) string
@@ -36,27 +57,6 @@ func Eval(s ...string) string {
 		},
 	}
 
-	// evaluate brackets, recursively
-	for i := 0; i < len(s); i++ {
-		if s[i] == "(" {
-			bracketDepth := 0
-			for j := i; j < len(s); j++ {
-				if s[j] == "(" {
-					bracketDepth++
-				}
-				if s[j] == ")" {
-					bracketDepth--
-				}
-				if s[j] == ")" && bracketDepth == 0 {
-					s[i] = Eval(s[i+1 : j]...)
-					s = append(s[0:i+1], s[j+1:len(s)]...)
-					break
-				}
-			}
-		}
-	}
-
-	// apply binary operations in precedence order
 	for _, op := range odmas {
 		for i := 0; i < len(s); i++ {
 			if s[i] == op.Op {

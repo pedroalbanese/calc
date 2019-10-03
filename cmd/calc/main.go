@@ -18,5 +18,5 @@ func main() {
 		r = append(r, s.TokenText())
 	}
 
-	fmt.Println(calc.Eval(r...))
+	fmt.Println(calc.EvalTokens(r...))
 }

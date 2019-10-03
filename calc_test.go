@@ -72,7 +72,7 @@ func TestParse(t *testing.T) {
 
 	for _, eg := range examples {
 		t.Run(eg.Title, func(t *testing.T) {
-			result := calc.Eval(eg.Input...)
+			result := calc.EvalTokens(eg.Input...)
 			assert.Equal(t, eg.Expect, result)
 		})
 	}

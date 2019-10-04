@@ -4,12 +4,27 @@ import (
 	"math"
 	"strconv"
 	"strings"
+	"text/scanner"
 )
 
-// EvalTokens evaluates a mathematical expession in BODMAS order, the
-// input string array is assumed to already be tokenized. This method
-// panics if the expression is not valid for any reason.
-func EvalTokens(s ...string) string {
+// Eval evaluates a mathematical expession in BODMAS order.
+// This method panics if the expression is not valid for any reason.
+func Eval(expr string) string {
+	var s scanner.Scanner
+	s.Init(strings.NewReader(expr))
+
+	var r []string
+	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
+		r = append(r, s.TokenText())
+	}
+
+	return evalTokens(r...)
+}
+
+// evalTokens evaluates a mathematical expression in BODMAS order.
+// The input is assumed to already be properly tokenized.
+// This method panics if the input is not a valid expression.
+func evalTokens(s ...string) string {
 	// evaluate brackets, recursively
 	for i := 0; i < len(s); i++ {
 		if s[i] == "(" {
@@ -22,7 +37,7 @@ func EvalTokens(s ...string) string {
 					bracketDepth--
 				}
 				if s[j] == ")" && bracketDepth == 0 {
-					s[i] = EvalTokens(s[i+1 : j]...)
+					s[i] = evalTokens(s[i+1 : j]...)
 					s = append(s[0:i+1], s[j+1:len(s)]...)
 					break
 				}

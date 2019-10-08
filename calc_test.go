@@ -82,8 +82,30 @@ func TestEval(t *testing.T) {
 
 	for _, eg := range examples {
 		t.Run(eg.Title, func(t *testing.T) {
-			result := calc.Eval(eg.Input)
+			result, err := calc.Eval(eg.Input)
+			assert.NilError(t, err)
 			assert.Equal(t, eg.Expect, result)
+		})
+	}
+}
+
+func TestEvalErrors(t *testing.T) {
+	examples := []struct {
+		Title             string
+		Input             string
+		ExpectErrContains string
+	}{
+		{
+			Title:             "Unknown char",
+			Input:             "# + 3",
+			ExpectErrContains: "Expected number got '#'",
+		},
+	}
+
+	for _, eg := range examples {
+		t.Run(eg.Title, func(t *testing.T) {
+			_, err := calc.Eval(eg.Input)
+			assert.ErrorContains(t, err, eg.ExpectErrContains)
 		})
 	}
 }

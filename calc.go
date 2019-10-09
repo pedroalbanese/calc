@@ -8,6 +8,16 @@ import (
 	"text/scanner"
 )
 
+// Must returns the `result` parameter unless `err` is non-nil.
+// If `err` is non-nil, `Must` panics.
+func Must(result string, err error) string {
+	if err != nil {
+		panic(err)
+	}
+
+	return result
+}
+
 // Eval evaluates a mathematical expession in BODMAS order.
 func Eval(expr string) (string, error) {
 	var s scanner.Scanner

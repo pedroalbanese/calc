@@ -33,7 +33,6 @@ func Eval(expr string) (string, error) {
 
 // evalTokens evaluates a mathematical expression in BODMAS order.
 // The input is assumed to already be properly tokenized.
-// This method panics if the input is not a valid expression.
 func evalTokens(s ...string) (string, error) {
 	var bodmas = []op{
 		evalBrackets,

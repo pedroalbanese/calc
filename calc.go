@@ -20,12 +20,27 @@ func Must(result string, err error) string {
 
 // Eval evaluates a mathematical expession in BODMAS order.
 func Eval(expr string) (string, error) {
+	return EvalVars(expr, make(map[string]interface{}))
+}
+
+// EvalVars evaluates a mathematical expression in BODMAS order. Any variables
+// in the expression are replaced with the corresponding entry in the `vars`
+// parameter before evaluation.
+//
+// Currently, all values in the `vars` array are expected to be a type
+// that can be passed to `fmt.Sprintf("%d")`
+func EvalVars(expr string, vars map[string]interface{}) (string, error) {
 	var s scanner.Scanner
 	s.Init(strings.NewReader(expr))
 
 	var r []string
 	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
-		r = append(r, s.TokenText())
+		token := s.TokenText()
+		if v, ok := vars[token]; ok {
+			token = fmt.Sprintf("%d", v)
+		}
+
+		r = append(r, token)
 	}
 
 	return evalTokens(r...)

@@ -10,3 +10,11 @@ func ExampleEval() {
 	fmt.Println(calc.Must(calc.Eval("2 + (3 * 4) / 2")))
 	// Output: 8
 }
+
+func ExampleEvalVars() {
+	fmt.Println(calc.Must(calc.EvalVars("2 + (var1 * 4) / var2", map[string]interface{}{
+		"var1": 3,
+		"var2": 2,
+	})))
+	// Output: 8
+}

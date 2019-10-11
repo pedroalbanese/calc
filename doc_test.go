@@ -6,7 +6,7 @@ import (
 	"github.com/julz/calc"
 )
 
-func Example() {
+func ExampleEval() {
 	fmt.Println(calc.Must(calc.Eval("2 + (3 * 4) / 2")))
 	// Output: 8
 }

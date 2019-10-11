@@ -8,5 +8,5 @@ import (
 )
 
 func main() {
-	fmt.Println(calc.Eval(os.Args[1]))
+	fmt.Println(calc.Must(calc.Eval(os.Args[1])))
 }

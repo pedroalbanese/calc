@@ -1,6 +1,7 @@
 package calc
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"strconv"
@@ -77,12 +78,13 @@ func evalBrackets(s []string) ([]string, error) {
 		if s[i] == "(" {
 			bracketDepth := 0
 			for j := i; j < len(s); j++ {
-				if s[j] == "(" {
+				switch s[j] {
+				case "(":
 					bracketDepth++
-				}
-				if s[j] == ")" {
+				case ")":
 					bracketDepth--
 				}
+
 				if s[j] == ")" && bracketDepth == 0 {
 					bracketResult, err := evalTokens(s[i+1 : j]...)
 					if err != nil {
@@ -92,6 +94,12 @@ func evalBrackets(s []string) ([]string, error) {
 					s[i] = bracketResult
 					s = append(s[0:i+1], s[j+1:len(s)]...)
 					break
+				}
+
+				// if we get to the end of the tokens and we never found
+				// a matching bracket, the expression is invalid
+				if j == len(s)-1 {
+					return nil, errors.New("Mismatched brackets, expected to find ')' but reached end of tokens")
 				}
 			}
 		}

@@ -100,6 +100,11 @@ func TestEvalErrors(t *testing.T) {
 			Input:             "# + 3",
 			ExpectErrContains: "Expected number got '#'",
 		},
+		{
+			Title:             "Unbalanced brackets",
+			Input:             "1 + 2 + (3",
+			ExpectErrContains: "Mismatched brackets",
+		},
 	}
 
 	for _, eg := range examples {

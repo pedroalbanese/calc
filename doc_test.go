@@ -14,7 +14,7 @@ func ExampleEval() {
 func ExampleEvalVars() {
 	fmt.Println(calc.Must(calc.EvalVars("(2 + (var1 * 4) / var2) * floatvar", map[string]interface{}{
 		"var1":     3,
-		"var2":     2,
+		"var2":     int64(2),
 		"floatvar": 0.5,
 	})))
 	// Output: 4

@@ -41,6 +41,8 @@ func EvalVars(expr string, vars map[string]interface{}) (string, error) {
 			switch v.(type) {
 			case int:
 				token = fmt.Sprintf("%d", v)
+			case int64:
+				token = fmt.Sprintf("%d", v)
 			case float64:
 				token = fmt.Sprintf("%f", v)
 			default:

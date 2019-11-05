@@ -12,9 +12,10 @@ func ExampleEval() {
 }
 
 func ExampleEvalVars() {
-	fmt.Println(calc.Must(calc.EvalVars("2 + (var1 * 4) / var2", map[string]interface{}{
-		"var1": 3,
-		"var2": 2,
+	fmt.Println(calc.Must(calc.EvalVars("(2 + (var1 * 4) / var2) * floatvar", map[string]interface{}{
+		"var1":     3,
+		"var2":     2,
+		"floatvar": 0.5,
 	})))
-	// Output: 8
+	// Output: 4
 }

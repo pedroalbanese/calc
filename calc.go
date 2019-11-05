@@ -38,7 +38,14 @@ func EvalVars(expr string, vars map[string]interface{}) (string, error) {
 	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
 		token := s.TokenText()
 		if v, ok := vars[token]; ok {
-			token = fmt.Sprintf("%d", v)
+			switch v.(type) {
+			case int:
+				token = fmt.Sprintf("%d", v)
+			case float64:
+				token = fmt.Sprintf("%f", v)
+			default:
+				return "", fmt.Errorf("unsupported var type: %T", v)
+			}
 		}
 
 		r = append(r, token)

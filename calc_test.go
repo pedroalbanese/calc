@@ -39,6 +39,11 @@ func TestEval(t *testing.T) {
 			Expect: "4",
 		},
 		{
+			Title:  "Modulus",
+			Input:  "8%3",
+			Expect: "2",
+		},
+		{
 			Title:  "Fractional Division",
 			Input:  "2/8",
 			Expect: "0.25",

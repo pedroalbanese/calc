@@ -67,6 +67,7 @@ func evalTokens(s ...string) (string, error) {
 		binaryOp("*", func(a, b float64) float64 { return a * b }),
 		binaryOp("+", func(a, b float64) float64 { return a + b }),
 		binaryOp("-", func(a, b float64) float64 { return a - b }),
+		binaryOp("%", func(a, b float64) float64 { return float64(int(a) % int(b)) }),
 	}
 
 	var err error

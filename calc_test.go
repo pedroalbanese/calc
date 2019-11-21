@@ -98,12 +98,12 @@ func TestEvalErrors(t *testing.T) {
 		{
 			Title:             "Unknown char",
 			Input:             "# + 3",
-			ExpectErrContains: "Expected number got '#'",
+			ExpectErrContains: "expected number got '#'",
 		},
 		{
 			Title:             "Unbalanced brackets",
 			Input:             "1 + 2 + (3",
-			ExpectErrContains: "Mismatched brackets",
+			ExpectErrContains: "mismatched brackets",
 		},
 	}
 

@@ -1,3 +1,4 @@
+// Package calc contains methods for evaluating mathematical expressions in string format
 package calc
 
 import (
@@ -101,14 +102,14 @@ func evalBrackets(s []string) ([]string, error) {
 					}
 
 					s[i] = bracketResult
-					s = append(s[0:i+1], s[j+1:len(s)]...)
+					s = append(s[0:i+1], s[j+1:]...)
 					break
 				}
 
 				// if we get to the end of the tokens and we never found
 				// a matching bracket, the expression is invalid
 				if j == len(s)-1 {
-					return nil, errors.New("Mismatched brackets, expected to find ')' but reached end of tokens")
+					return nil, errors.New("mismatched brackets, expected to find ')' but reached end of tokens")
 				}
 			}
 		}
@@ -126,17 +127,17 @@ func binaryOp(symbol string, fn func(float64, float64) float64) op {
 			if s[i] == symbol {
 				lhs, err := strconv.ParseFloat(s[i-1], 64)
 				if err != nil {
-					return nil, fmt.Errorf("Expected number got '%s': %s", s[i-1], err)
+					return nil, fmt.Errorf("expected number got '%s': %s", s[i-1], err)
 				}
 
 				rhs, err := strconv.ParseFloat(s[i+1], 64)
 				if err != nil {
-					return nil, fmt.Errorf("Expected number got '%s': %s", s[i+1], err)
+					return nil, fmt.Errorf("expected number got '%s': %s", s[i+1], err)
 				}
 
 				s[i-1] = strconv.FormatFloat(fn(lhs, rhs), 'f', -1, 64)
 
-				s = append(s[0:i], s[i+2:len(s)]...)
+				s = append(s[0:i], s[i+2:]...)
 				i = i - 2
 			}
 		}

@@ -8,13 +8,15 @@ import (
 	"strconv"
 	"strings"
 	"text/scanner"
+	"log"
 )
 
 // Must returns the `result` parameter unless `err` is non-nil.
 // If `err` is non-nil, `Must` panics.
 func Must(result string, err error) string {
 	if err != nil {
-		panic(err)
+//		panic(err)
+                log.Fatal(err)
 	}
 
 	return result

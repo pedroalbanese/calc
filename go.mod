@@ -1,4 +1,4 @@
-module github.com/julz/calc
+module github.com/pedroalbanese/calc
 
 go 1.12
 
